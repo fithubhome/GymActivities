@@ -9,12 +9,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
-
+@Getter
+@Setter
 @Entity
 @Table(name = "gym_event")
 public class GymEvent {
@@ -42,84 +45,4 @@ public class GymEvent {
     @Column(name = "max_participants")
     private Integer maxParticipants;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public List<WorkoutType> getWorkoutType() {
-        return workoutType;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public Time getStartTime() {
-        return startTime;
-    }
-
-    public Time getEndTime() {
-        return endTime;
-    }
-
-    public Long getOrganizerId() {
-        return organizerId;
-    }
-
-    public String getEventType() {
-        return eventType;
-    }
-
-    public Integer getMaxParticipants() {
-        return maxParticipants;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setWorkoutType(List<WorkoutType> workoutType) {
-        this.workoutType = workoutType;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public void setStartTime(Time startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setEndTime(Time endTime) {
-        this.endTime = endTime;
-    }
-
-    public void setOrganizerId(Long organizerId) {
-        this.organizerId = organizerId;
-    }
-
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
-    }
-
-    public void setMaxParticipants(Integer maxParticipants) {
-        this.maxParticipants = maxParticipants;
-    }
-
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-
-    public String getEventDescription() {
-        return eventDescription;
-    }
-
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
-    }
 }

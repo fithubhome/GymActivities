@@ -1,10 +1,12 @@
 package com.fithubhome.activities.controller;
 
 import com.fithubhome.activities.exceptions.EventNotFoundException;
+import com.fithubhome.activities.exceptions.EventsAreOverlappingException;
 import com.fithubhome.activities.exceptions.ParticipantIsNotRegisteredToEvent;
 import com.fithubhome.activities.exceptions.ParticipantIsRegisteredAlready;
 import com.fithubhome.activities.model.Participant;
 import com.fithubhome.activities.service.ParticipantService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -23,27 +25,13 @@ import java.util.List;
 @Validated
 @RequestMapping("/participant")
 public class ParticipantController {
-
+    @Autowired
     ParticipantService participantService;
 
-    public ParticipantController(ParticipantService participantService) {
-        this.participantService = participantService;
-    }
-
     @GetMapping(params = "eventId")
-    public ResponseEntity<List<Participant>> getParticipantsForEvent(@RequestParam Long eventId) {
-        List<Participant> participantsForEvent;
-        try {
-            participantsForEvent = participantService.getParticipantsForEvent(eventId);
-        } catch (EventNotFoundException exception) {
-            return ResponseEntity
-                    .status(404)
-                    .body(null);
-        } catch (Exception exception) {
-            return ResponseEntity
-                    .status(500)
-                    .body(null);
-        }
+    public ResponseEntity<List<Participant>> getParticipantsForEvent(@RequestParam Long eventId) throws EventNotFoundException {
+
+        List<Participant> participantsForEvent = participantService.getParticipantsForEvent(eventId);
 
         return ResponseEntity
                 .status(200)
@@ -51,19 +39,10 @@ public class ParticipantController {
     }
 
     @PostMapping
-    public ResponseEntity<EntityModel<Participant>> signUpForTheEvent(@RequestBody @Validated Participant participant) {
-        Participant registeredParticipant;
-        try {
-            registeredParticipant = participantService.signUpForTheEvent(participant);
-        } catch (ParticipantIsRegisteredAlready exception) {
-            return ResponseEntity
-                    .status(409)
-                    .body(null);
-        } catch (Exception exception) {
-            return ResponseEntity
-                    .status(500)
-                    .body(null);
-        }
+    public ResponseEntity<EntityModel<Participant>> signUpForTheEvent(@RequestBody @Validated Participant participant)
+            throws EventNotFoundException, ParticipantIsRegisteredAlready, EventsAreOverlappingException {
+
+        Participant registeredParticipant = participantService.signUpForTheEvent(participant);
 
         return ResponseEntity
                 .status(202)
@@ -76,7 +55,8 @@ public class ParticipantController {
                         , WebMvcLinkBuilder
                                 .linkTo(WebMvcLinkBuilder
                                         .methodOn(GymEventController.class).getEventById(registeredParticipant.getEvent().getId()))
-                                .withRel("GET")));
+                                .withRel("GET")
+                ));
     }
 
     @DeleteMapping()

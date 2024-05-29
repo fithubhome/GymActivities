@@ -7,8 +7,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
-
+@Getter
+@Setter
 @Entity
 @Table(name = "participants")
 public class Participant {
@@ -21,27 +24,4 @@ public class Participant {
     @JoinColumn(name = "event_id", nullable = false)
     private GymEvent event;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getProfileId() {
-        return profileId;
-    }
-
-    public void setProfileId(Long profileId) {
-        this.profileId = profileId;
-    }
-
-    public GymEvent getEvent() {
-        return event;
-    }
-
-    public void setEvent(GymEvent event) {
-        this.event = event;
-    }
 }

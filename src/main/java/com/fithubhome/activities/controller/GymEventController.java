@@ -32,20 +32,9 @@ public class GymEventController {
 
 
     @GetMapping("/all-events")
-    public ResponseEntity<List<GymEvent>> getAllEvents() {
+    public ResponseEntity<List<GymEvent>> getAllEvents() throws EventNotFoundException {
 
-        List<GymEvent> allEvents;
-        try {
-            allEvents = gymEventService.getAllEvents();
-        } catch (EventNotFoundException exception) {
-            return ResponseEntity
-                    .status(404)
-                    .body(null);
-        } catch (Exception exception) {
-            return ResponseEntity
-                    .status(500)
-                    .body(null);
-        }
+        List<GymEvent> allEvents = gymEventService.getAllEvents();
 
         return ResponseEntity
                 .ok()
@@ -53,20 +42,10 @@ public class GymEventController {
     }
 
     @GetMapping(params = "eventId")
-    public ResponseEntity<EntityModel<GymEvent>> getEventById(@RequestParam Long eventId) {
+    public ResponseEntity<EntityModel<GymEvent>> getEventById(@RequestParam Long eventId)
+            throws EventNotFoundException, EventsAreOverlappingException {
 
-        GymEvent eventById;
-        try {
-            eventById = gymEventService.getEventById(eventId);
-        } catch (EventNotFoundException exception) {
-            return ResponseEntity
-                    .status(404)
-                    .body(null);
-        } catch (Exception exception) {
-            return ResponseEntity
-                    .status(500)
-                    .body(null);
-        }
+        GymEvent eventById = gymEventService.getEventById(eventId);
 
         return ResponseEntity
                 .status(200)
@@ -84,20 +63,9 @@ public class GymEventController {
     }
 
     @GetMapping(params = "organizerId")
-    public ResponseEntity<List<GymEvent>> getEventByOrganizerId(@RequestParam Long organizerId) {
+    public ResponseEntity<List<GymEvent>> getEventByOrganizerId(@RequestParam Long organizerId) throws EventNotFoundException {
 
-        List<GymEvent> organizerEvents;
-        try {
-            organizerEvents = gymEventService.getEventByOrganizerId(organizerId);
-        } catch (EventNotFoundException exception) {
-            return ResponseEntity
-                    .status(404)
-                    .body(null);
-        } catch (Exception exception) {
-            return ResponseEntity
-                    .status(500)
-                    .body(null);
-        }
+        List<GymEvent> organizerEvents = gymEventService.getEventByOrganizerId(organizerId);
 
         return ResponseEntity
                 .status(200)
@@ -105,20 +73,10 @@ public class GymEventController {
     }
 
     @PostMapping
-    public ResponseEntity<EntityModel<GymEvent>> createEvent(@RequestBody @Validated GymEvent event) {
+    public ResponseEntity<EntityModel<GymEvent>> createEvent(@RequestBody @Validated GymEvent event)
+            throws EventNotFoundException, EventsAreOverlappingException {
 
-        GymEvent createdEvent;
-        try {
-            createdEvent = gymEventService.createOrUpdateGymEvent(event);
-        } catch (EventsAreOverlappingException exception) {
-            return ResponseEntity
-                    .status(409)
-                    .body(null);
-        } catch (Exception exception) {
-            return ResponseEntity
-                    .status(500)
-                    .body(null);
-        }
+        GymEvent createdEvent = gymEventService.createOrUpdateGymEvent(event);
 
         return ResponseEntity
                 .status(201)
@@ -136,20 +94,10 @@ public class GymEventController {
     }
 
     @PutMapping
-    public ResponseEntity<EntityModel<GymEvent>> updateEvent(@RequestBody @Validated GymEvent event) {
+    public ResponseEntity<EntityModel<GymEvent>> updateEvent(@RequestBody @Validated GymEvent event)
+            throws EventNotFoundException, EventsAreOverlappingException {
 
-        GymEvent updatedEvent;
-        try {
-            updatedEvent = gymEventService.createOrUpdateGymEvent(event);
-        } catch (EventsAreOverlappingException exception) {
-            return ResponseEntity
-                    .status(409)
-                    .body(null);
-        } catch (Exception exception) {
-            return ResponseEntity
-                    .status(500)
-                    .body(null);
-        }
+        GymEvent updatedEvent = gymEventService.createOrUpdateGymEvent(event);
 
         return ResponseEntity
                 .status(202)
@@ -167,21 +115,13 @@ public class GymEventController {
     }
 
     @DeleteMapping(params = "eventId")
-    public ResponseEntity<String> deleteEventById(@RequestParam Long eventId) {
+    public ResponseEntity<String> deleteEventById(@RequestParam Long eventId) throws EventNotFoundException {
 
-        try {
-            gymEventService.deleteEventById(eventId);
-        } catch (EventNotFoundException exception) {
-            return ResponseEntity
-                    .status(404)
-                    .body(null);
-        } catch (Exception exception) {
-            return ResponseEntity
-                    .status(500)
-                    .body(null);
-        }
+        gymEventService.deleteEventById(eventId);
+
         return ResponseEntity
                 .status(200)
                 .body("Event deleted successfully");
     }
+
 }

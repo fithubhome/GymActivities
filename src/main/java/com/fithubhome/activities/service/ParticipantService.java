@@ -30,7 +30,7 @@ public class ParticipantService {
         if (gymEvent.isPresent()) {
             return participantsRepository.getParticipantsForEvent(gymEvent.get());
         } else {
-            throw new EventNotFoundException("Event was not found");
+            throw new EventNotFoundException("The event you are searching for was not found");
         }
 
     }
