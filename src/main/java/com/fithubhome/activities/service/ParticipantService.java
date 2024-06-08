@@ -8,6 +8,7 @@ import com.fithubhome.activities.model.Participant;
 import com.fithubhome.activities.repository.GymEventRepository;
 import com.fithubhome.activities.repository.ParticipantsRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,6 +36,7 @@ public class ParticipantService {
 
     }
 
+    @Transactional
     public Participant signUpForTheEvent(Participant participant) throws ParticipantIsRegisteredAlready {
         Optional<Participant> alreadyRegisteredParticipant = getParticipantForEventFromDb(participant);
         if (alreadyRegisteredParticipant.isPresent()) {
