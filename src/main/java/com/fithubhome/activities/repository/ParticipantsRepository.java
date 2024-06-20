@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ParticipantsRepository extends JpaRepository<Participant, Long> {
+public interface ParticipantsRepository extends JpaRepository<Participant, Integer> {
     @Query("SELECT p FROM Participant p WHERE p.event = :event")
     List<Participant> getParticipantsForEvent(@Param("event") GymEvent event);
 }
