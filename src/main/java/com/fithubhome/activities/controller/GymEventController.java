@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequestMapping("/event")
 @RestController
@@ -42,7 +43,7 @@ public class GymEventController {
     }
 
     @GetMapping(params = "eventId")
-    public ResponseEntity<EntityModel<GymEvent>> getEventById(@RequestParam Long eventId)
+    public ResponseEntity<EntityModel<GymEvent>> getEventById(@RequestParam Integer eventId)
             throws EventNotFoundException, EventsAreOverlappingException {
 
         GymEvent eventById = gymEventService.getEventById(eventId);
@@ -62,8 +63,8 @@ public class GymEventController {
                                 .withRel("DELETE")));
     }
 
-    @GetMapping(params = "organizerId")
-    public ResponseEntity<List<GymEvent>> getEventByOrganizerId(@RequestParam Long organizerId) throws EventNotFoundException {
+    @GetMapping(params = " organizerId")
+    public ResponseEntity<List<GymEvent>> getEventByOrganizerId(@RequestParam UUID organizerId) throws EventNotFoundException {
 
         List<GymEvent> organizerEvents = gymEventService.getEventByOrganizerId(organizerId);
 
@@ -115,7 +116,7 @@ public class GymEventController {
     }
 
     @DeleteMapping(params = "eventId")
-    public ResponseEntity<String> deleteEventById(@RequestParam Long eventId) throws EventNotFoundException {
+    public ResponseEntity<String> deleteEventById(@RequestParam Integer eventId) throws EventNotFoundException {
 
         gymEventService.deleteEventById(eventId);
 

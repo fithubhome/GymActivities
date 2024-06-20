@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class GymEventService {
@@ -57,13 +58,13 @@ public class GymEventService {
 
     }
 
-    public GymEvent getEventById(Long id) throws EventNotFoundException {
+    public GymEvent getEventById(Integer id) throws EventNotFoundException {
         return gymEventRepository.findById(id)
                 .orElseThrow(() -> new EventNotFoundException("Event with id: " + id + " was not found"));
 
     }
 
-    public List<GymEvent> getEventByOrganizerId(Long organizerId) throws EventNotFoundException {
+    public List<GymEvent> getEventByOrganizerId(UUID organizerId) throws EventNotFoundException {
 
         List<GymEvent> eventsByOrganizerId = gymEventRepository.getEventsByOrganizerId(organizerId);
 
@@ -74,7 +75,7 @@ public class GymEventService {
         }
     }
 
-    public void deleteEventById(Long id) throws EventNotFoundException {
+    public void deleteEventById(Integer id) throws EventNotFoundException {
         Optional<GymEvent> gymEvent = gymEventRepository.findById(id);
 
         if (gymEvent.isPresent()) {

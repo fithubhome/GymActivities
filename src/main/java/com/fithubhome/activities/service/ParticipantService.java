@@ -25,7 +25,7 @@ public class ParticipantService {
         this.gymEventRepository = gymEventRepository;
     }
 
-    public List<Participant> getParticipantsForEvent(Long eventId) throws EventNotFoundException {
+    public List<Participant> getParticipantsForEvent(Integer eventId) throws EventNotFoundException {
         Optional<GymEvent> gymEvent = gymEventRepository.findById(eventId);
 
         if (gymEvent.isPresent()) {
@@ -50,7 +50,7 @@ public class ParticipantService {
         Optional<Participant> alreadyRegisteredParticipant = getParticipantForEventFromDb(participant);
 
         if (alreadyRegisteredParticipant.isPresent()) {
-            participantsRepository.delete(participant);
+            participantsRepository.delete(alreadyRegisteredParticipant.get());
         } else {
             throw new ParticipantIsNotRegisteredToEvent("Participant is not registered to this event");
         }

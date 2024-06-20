@@ -29,7 +29,7 @@ public class ParticipantController {
     ParticipantService participantService;
 
     @GetMapping(params = "eventId")
-    public ResponseEntity<List<Participant>> getParticipantsForEvent(@RequestParam Long eventId) throws EventNotFoundException {
+    public ResponseEntity<List<Participant>> getParticipantsForEvent(@RequestParam Integer eventId) throws EventNotFoundException {
 
         List<Participant> participantsForEvent = participantService.getParticipantsForEvent(eventId);
 
@@ -60,7 +60,7 @@ public class ParticipantController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<String> withdrawFromEvent(@RequestBody @Validated Participant participant) {
+    public ResponseEntity<String> withdrawFromEvent(@RequestBody Participant participant) {
         try {
             participantService.withdrawFromEvent(participant);
         } catch (ParticipantIsNotRegisteredToEvent exception) {

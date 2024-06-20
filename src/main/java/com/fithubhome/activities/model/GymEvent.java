@@ -11,10 +11,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Types;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -24,7 +27,7 @@ public class GymEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Integer id;
     @Column(name = "event_name")
     private String eventName;
     @Column(name = "event_description")
@@ -39,7 +42,8 @@ public class GymEvent {
     @Column(name = "end_time", nullable = false)
     private Time endTime;
     @Column(name = "organizer_id", nullable = false)
-    private Long organizerId;
+    @JdbcTypeCode(Types.VARCHAR)
+    private UUID organizerId;
     @Column(name = "event_type")
     private String eventType;
     @Column(name = "max_participants")
