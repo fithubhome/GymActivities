@@ -13,7 +13,9 @@ import lombok.Setter;
 @Table(name = "workout_type")
 public class WorkoutType {
     @Id
-    @Column(name = "id", nullable = false)
+
     private Long id;
+//    private String name;
+//    private Integer membershipId;
 
 }
