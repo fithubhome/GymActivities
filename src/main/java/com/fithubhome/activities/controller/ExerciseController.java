@@ -15,9 +15,8 @@ import java.util.List;
 
 @RestController
 @Validated
-@RequestMapping("/exercises")
+@RequestMapping("/exercise")
 public class ExerciseController {
-
     @Autowired
     private ExercisesService exercisesService;
 
