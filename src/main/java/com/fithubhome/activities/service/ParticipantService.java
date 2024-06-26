@@ -16,7 +16,6 @@ import java.util.Optional;
 
 @Service
 public class ParticipantService {
-
     ParticipantsRepository participantsRepository;
     GymEventRepository gymEventRepository;
 
@@ -58,9 +57,9 @@ public class ParticipantService {
 
     private Optional<Participant> getParticipantForEventFromDb(Participant participant) {
         return participantsRepository.
-                getParticipantsForEvent(participant.getEvent())
-                .stream()
-                .filter(p -> Objects.equals(p.getProfileId(), participant.getProfileId()))
-                .findAny();
+            getParticipantsForEvent(participant.getEvent())
+            .stream()
+            .filter(p -> Objects.equals(p.getProfileId(), participant.getProfileId()))
+            .findAny();
     }
 }
