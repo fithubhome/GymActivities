@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 public class ExceptionHandlerController {
-
     @ExceptionHandler(EventNotFoundException.class)
     public ResponseEntity<String> handleEventNotFoundException(EventNotFoundException exception) {
         log.error(exception.getMessage());

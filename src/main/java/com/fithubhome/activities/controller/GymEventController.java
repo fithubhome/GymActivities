@@ -31,15 +31,13 @@ public class GymEventController {
     @Autowired
     GymEventService gymEventService;
 
-
     @GetMapping("/all-events")
     public ResponseEntity<List<GymEvent>> getAllEvents() throws EventNotFoundException {
-
         List<GymEvent> allEvents = gymEventService.getAllEvents();
 
         return ResponseEntity
-                .ok()
-                .body(allEvents);
+            .ok()
+            .body(allEvents);
     }
 
     @GetMapping(params = "eventId")
@@ -49,28 +47,27 @@ public class GymEventController {
         GymEvent eventById = gymEventService.getEventById(eventId);
 
         return ResponseEntity
-                .status(200)
-                .body(EntityModel.of(
-                        eventById,
-                        WebMvcLinkBuilder
-                                .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).getEventById(eventById.getId()))
-                                .withRel(LinkRelation.of("GET"))
-                        , WebMvcLinkBuilder
-                                .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).updateEvent(eventById))
-                                .withRel("PUT")
-                        , WebMvcLinkBuilder
-                                .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).deleteEventById(eventById.getId()))
-                                .withRel("DELETE")));
+            .status(200)
+            .body(EntityModel.of(
+                eventById,
+                WebMvcLinkBuilder
+                    .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).getEventById(eventById.getId()))
+                    .withRel(LinkRelation.of("GET"))
+            , WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).updateEvent(eventById))
+                .withRel("PUT")
+            , WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).deleteEventById(eventById.getId()))
+                .withRel("DELETE")));
     }
 
     @GetMapping(params = " organizerId")
     public ResponseEntity<List<GymEvent>> getEventByOrganizerId(@RequestParam UUID organizerId) throws EventNotFoundException {
-
         List<GymEvent> organizerEvents = gymEventService.getEventByOrganizerId(organizerId);
 
         return ResponseEntity
-                .status(200)
-                .body(organizerEvents);
+            .status(200)
+            .body(organizerEvents);
     }
 
     @PostMapping
@@ -80,18 +77,18 @@ public class GymEventController {
         GymEvent createdEvent = gymEventService.createOrUpdateGymEvent(event);
 
         return ResponseEntity
-                .status(201)
-                .body(EntityModel.of(
-                        createdEvent,
-                        WebMvcLinkBuilder
-                                .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).getEventById(createdEvent.getId()))
-                                .withRel("GET")
-                        , WebMvcLinkBuilder
-                                .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).updateEvent(createdEvent))
-                                .withRel("PUT")
-                        , WebMvcLinkBuilder
-                                .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).deleteEventById(createdEvent.getId()))
-                                .withRel("DELETE")));
+            .status(201)
+            .body(EntityModel.of(
+                createdEvent,
+                WebMvcLinkBuilder
+                    .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).getEventById(createdEvent.getId()))
+                    .withRel("GET")
+                , WebMvcLinkBuilder
+                    .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).updateEvent(createdEvent))
+                    .withRel("PUT")
+                , WebMvcLinkBuilder
+                    .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).deleteEventById(createdEvent.getId()))
+                    .withRel("DELETE")));
     }
 
     @PutMapping
@@ -101,28 +98,27 @@ public class GymEventController {
         GymEvent updatedEvent = gymEventService.createOrUpdateGymEvent(event);
 
         return ResponseEntity
-                .status(202)
-                .body(EntityModel.of(
-                        updatedEvent,
-                        WebMvcLinkBuilder
-                                .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).getEventById(updatedEvent.getId()))
-                                .withRel("GET")
-                        , WebMvcLinkBuilder
-                                .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).updateEvent(updatedEvent))
-                                .withRel("PUT")
-                        , WebMvcLinkBuilder
-                                .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).deleteEventById(updatedEvent.getId()))
-                                .withRel("DELETE")));
+            .status(202)
+            .body(EntityModel.of(
+                updatedEvent,
+                WebMvcLinkBuilder
+                    .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).getEventById(updatedEvent.getId()))
+                    .withRel("GET")
+                , WebMvcLinkBuilder
+                    .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).updateEvent(updatedEvent))
+                    .withRel("PUT")
+                , WebMvcLinkBuilder
+                    .linkTo(WebMvcLinkBuilder.methodOn(GymEventController.class).deleteEventById(updatedEvent.getId()))
+                    .withRel("DELETE")));
     }
 
     @DeleteMapping(params = "eventId")
     public ResponseEntity<String> deleteEventById(@RequestParam Integer eventId) throws EventNotFoundException {
-
         gymEventService.deleteEventById(eventId);
 
         return ResponseEntity
-                .status(200)
-                .body("Event deleted successfully");
+            .status(200)
+            .body("Event deleted successfully");
     }
 
 }
