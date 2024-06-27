@@ -28,25 +28,17 @@ public class GymEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
-    @Column(name = "event_name")
     private String eventName;
-    @Column(name = "event_description")
     private String eventDescription;
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "workout_type_id", nullable = false)
     private List<WorkoutType> workoutType;
-    @Column(name = "date", nullable = false)
     private Date date;
-    @Column(name = "start_time", nullable = false)
     private Time startTime;
-    @Column(name = "end_time", nullable = false)
     private Time endTime;
-    @Column(name = "organizer_id", nullable = false)
     @JdbcTypeCode(Types.VARCHAR)
     private UUID organizerId;
-    @Column(name = "event_type")
     private String eventType;
-    @Column(name = "max_participants")
     private Integer maxParticipants;
 
 }
