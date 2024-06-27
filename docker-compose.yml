@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: gym_activity_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: admin
+      MYSQL_DATABASE: gym_activities
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - gym_network
+
+  app:
+    image: gym_activity:latest
+    container_name: gym_activity
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/gym_activities
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQL8Dialect
+    depends_on:
+      - mysql
+    networks:
+      - gym_network
+
+  db-init:
+    image: mysql:8.0
+    container_name: db_initializer
+    depends_on:
+      - app
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: admin
+      MYSQL_DATABASE: gym_activities
+      MYSQL_PASSWORD: admin
+    volumes:
+      - ./setUp.sql:/docker-entrypoint-initdb.d/setUp.sql
+    networks:
+      - gym_network
+    entrypoint: [ "sh", "-c", "echo 'Waiting for mysql to be available...' && sleep 20 && mysql -h mysql -uadmin -padmin gym_activities < /docker-entrypoint-initdb.d/setUp.sql" ]
+
+volumes:
+  mysql_data:
+
+networks:
+  gym_network:

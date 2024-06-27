@@ -30,7 +30,7 @@ public class GymEventService {
                 .toList();
 
         if (eventsTimesAreOverlapping(event, eventsByDate)) {
-            throw new EventsAreOverlappingException("Can not create the event because time is overlapping with other events");
+            throw new EventsAreOverlappingException("Time is overlapping with other events, please chose another time interval for the event");
         } else {
             return gymEventRepository.save(event);
         }
